@@ -5,75 +5,88 @@
 //  Created by 金井菜津希 on 2025/03/27.
 //
 
-
 import Combine
 import PhotosUI
 import SwiftUI
- 
+import Photos
+
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
     @Environment(\.displayScale) private var displayScale
- 
+    @State private var savedImage: UIImage?
+    @State private var isImageSaved = false
+    @State private var images: [UIImage] = []
+
     private var exifImage: ExifImage {
         .init(
             exif: viewModel.exif
         )
     }
- 
+        
+
     var body: some View {
-            
-            GeometryReader { geometry in
-                VStack {
-                    exifImage
-     
-                    HStack{
-                        
-                        PhotosPicker(
-                            selection: $viewModel.pickedPhoto,
-                            matching: .images,
-                            photoLibrary: .shared()
-                        ) {
-                            Text("Select a photo")
-                        }
-                        .buttonStyle(.bordered)
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                exifImage
+                .shadow(radius: 10)
 
-                        Button {
-                            if let image = exifImage
-                                .frame(width: geometry.size.width)
-                                .snapshot(scale: displayScale) {
-                                PhotoLibraryManager.shared.saveImageToAlbum(image, albumName: "exif") {
-//                                                                isImageSaved = true
-                                                            }
-                                       }
-                                   } label: {
-                                       Text("保存")
-                                   }
-                                   .buttonStyle(.bordered)
-                                   
-
-                        if let image = exifImage
-                            .frame(width: geometry.size.width)
-                            .snapshot(scale: displayScale)
-                            .map(Image.init(uiImage:)) {
-                            ShareLink(
-                                "画像をシェアする",
-                                item: image,
-                                preview: .init(
-                                    "Share ExiFrame Image",
-                                    image: image
-                                )
-                            )
-                            .buttonStyle(.bordered)
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(images, id: \..self) { image in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
                         }
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding()
-    //            .background(Color(red: 0.99568, green: 0.8232, blue: 0.88592))
-                .background(Color("Background"))
-                
+                Spacer()
+                HStack {
+                    PhotosPicker(
+                        selection: $viewModel.pickedPhoto,
+                        matching: .images,
+                        photoLibrary: .shared()
+                    ) {
+                        Text("Select a photo")
+                            .frame(width: 150, height: 40)
+                    }
+                    .foregroundColor(.white)
+//                    .background(LinearGradient(gradient: Gradient(colors: [.pink, .blue]), startPoint: .leading, endPoint: .trailing))
+                    .background(Color.black)
+                    .cornerRadius(.infinity)
+                    .frame(maxWidth: .infinity)
+                    .shadow(radius: CGFloat(15))
+
+                    Button("画像を保存する"){
+                        if let image = exifImage
+                            .frame(width: geometry.size.width)
+                            .snapshot(scale: displayScale) {
+                            PhotoLibraryManager.shared.saveImageToAlbum(image, albumName: "exif") {
+                                isImageSaved = true
+                                
+                            }
+                        }
+                    }
+                    .frame(width: 150, height: 40)
+                    .foregroundColor(.white)
+//                    .background(LinearGradient(gradient: Gradient(colors: [.pink, .blue]), startPoint: .leading, endPoint: .trailing))
+                    .background(Color.black)
+                    .cornerRadius(40)
+                    .frame(maxWidth: .infinity)
+                    .shadow(radius: CGFloat(15))
+    
+                    .alert("保存ができました", isPresented: $isImageSaved) {
+                        Button("OK", role: .cancel) {}
+                    }
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .background(Color.white)
+        }
     }
+
 }
 
 class PhotoLibraryManager {
@@ -82,28 +95,24 @@ class PhotoLibraryManager {
     func saveImageToAlbum(_ image: UIImage, albumName: String, completion: @escaping () -> Void) {
         PHPhotoLibrary.requestAuthorization { status in
             guard status == .authorized else { return }
-
-            var albumPlaceholder: PHObjectPlaceholder?
-
+            
             PHPhotoLibrary.shared().performChanges {
                 let fetchOptions = PHFetchOptions()
                 fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
                 let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
 
-                let albumChangeRequest: PHAssetCollectionChangeRequest
+                var albumChangeRequest: PHAssetCollectionChangeRequest?
                 if let existingAlbum = collection.firstObject {
-                    albumChangeRequest = PHAssetCollectionChangeRequest(for: existingAlbum)!
+                    albumChangeRequest = PHAssetCollectionChangeRequest(for: existingAlbum)
                 } else {
                     let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
-                    albumPlaceholder = createAlbumRequest.placeholderForCreatedAssetCollection
+                    albumChangeRequest = createAlbumRequest
                 }
 
                 let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-                if let placeholder = assetChangeRequest.placeholderForCreatedAsset,
-                   let albumPlaceholder = albumPlaceholder,
-                   let albumFetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [albumPlaceholder.localIdentifier], options: nil).firstObject {
-                    let addAssetRequest = PHAssetCollectionChangeRequest(for: albumFetchResult)
-                    addAssetRequest?.addAssets([placeholder] as NSArray)
+                let placeholder = assetChangeRequest.placeholderForCreatedAsset
+                if let albumChangeRequest = albumChangeRequest, let placeholder = placeholder {
+                    albumChangeRequest.addAssets([placeholder] as NSArray)
                 }
             } completionHandler: { success, error in
                 if success {
@@ -114,8 +123,46 @@ class PhotoLibraryManager {
             }
         }
     }
+    
+    func fetchAlbum(named albumName: String) -> PHAssetCollection? {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
+        let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+        return collections.firstObject
+    }
+    
+    func fetchPhotos(from album: PHAssetCollection) -> [PHAsset] {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let assets = PHAsset.fetchAssets(in: album, options: fetchOptions)
+        
+        var assetArray: [PHAsset] = []
+        assets.enumerateObjects { (asset, _, _) in
+            assetArray.append(asset)
+        }
+        return assetArray
+    }
+    
+    func getUIImage(from asset: PHAsset, completion: @escaping (UIImage?) -> Void) {
+        
+        let imageManager = PHImageManager.default()
+        let options = PHImageRequestOptions()
+        options.isSynchronous = false
+        options.deliveryMode = .highQualityFormat
+        
+        imageManager.requestImage(for: asset,
+                                  targetSize: PHImageManagerMaximumSize,
+                                  contentMode: .aspectFit,
+                                  options: options) { image, _ in
+            DispatchQueue.main.async {
+                completion(image)
+            }
+        }
+    }
+    
+    
 }
- 
+
 extension View {
     @MainActor
     func snapshot(scale: CGFloat) -> UIImage? {

@@ -6,6 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		80848C4E2D96846E00AA0454 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C442D96846E00AA0454 /* AlbumView.swift */; };
+		80848C4F2D96846E00AA0454 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C462D96846E00AA0454 /* ContentView.swift */; };
+		80848C502D96846E00AA0454 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C472D96846E00AA0454 /* ContentViewModel.swift */; };
+		80848C512D96846E00AA0454 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C482D96846E00AA0454 /* Data.swift */; };
+		80848C522D96846E00AA0454 /* ExifImageVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C492D96846E00AA0454 /* ExifImageVIew.swift */; };
+		80848C532D96846E00AA0454 /* ImageMetadataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C4A2D96846E00AA0454 /* ImageMetadataParser.swift */; };
+		80848C542D96846E00AA0454 /* PhotoExifApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80848C4C2D96846E00AA0454 /* PhotoExifApp.swift */; };
+		80848C552D96846E00AA0454 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80848C422D96846E00AA0454 /* Preview Assets.xcassets */; };
+		80848C562D96846E00AA0454 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80848C452D96846E00AA0454 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		80848C032D94E5C700AA0454 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,14 +39,19 @@
 		80848BF22D94E5C300AA0454 /* PhotoExif.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoExif.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80848C022D94E5C700AA0454 /* PhotoExifTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoExifTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80848C0C2D94E5C700AA0454 /* PhotoExifUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoExifUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80848C422D96846E00AA0454 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		80848C442D96846E00AA0454 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		80848C452D96846E00AA0454 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		80848C462D96846E00AA0454 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		80848C472D96846E00AA0454 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		80848C482D96846E00AA0454 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		80848C492D96846E00AA0454 /* ExifImageVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExifImageVIew.swift; sourceTree = "<group>"; };
+		80848C4A2D96846E00AA0454 /* ImageMetadataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMetadataParser.swift; sourceTree = "<group>"; };
+		80848C4B2D96846E00AA0454 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80848C4C2D96846E00AA0454 /* PhotoExifApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoExifApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		80848BF42D94E5C300AA0454 /* PhotoExif */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PhotoExif;
-			sourceTree = "<group>";
-		};
 		80848C052D94E5C700AA0454 /* PhotoExifTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PhotoExifTests;
@@ -75,7 +92,7 @@
 		80848BE92D94E5C300AA0454 = {
 			isa = PBXGroup;
 			children = (
-				80848BF42D94E5C300AA0454 /* PhotoExif */,
+				80848C4D2D96846E00AA0454 /* PhotoExif */,
 				80848C052D94E5C700AA0454 /* PhotoExifTests */,
 				80848C0F2D94E5C700AA0454 /* PhotoExifUITests */,
 				80848BF32D94E5C300AA0454 /* Products */,
@@ -92,6 +109,31 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		80848C432D96846E00AA0454 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				80848C422D96846E00AA0454 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		80848C4D2D96846E00AA0454 /* PhotoExif */ = {
+			isa = PBXGroup;
+			children = (
+				80848C432D96846E00AA0454 /* Preview Content */,
+				80848C442D96846E00AA0454 /* AlbumView.swift */,
+				80848C452D96846E00AA0454 /* Assets.xcassets */,
+				80848C462D96846E00AA0454 /* ContentView.swift */,
+				80848C472D96846E00AA0454 /* ContentViewModel.swift */,
+				80848C482D96846E00AA0454 /* Data.swift */,
+				80848C492D96846E00AA0454 /* ExifImageVIew.swift */,
+				80848C4A2D96846E00AA0454 /* ImageMetadataParser.swift */,
+				80848C4B2D96846E00AA0454 /* Info.plist */,
+				80848C4C2D96846E00AA0454 /* PhotoExifApp.swift */,
+			);
+			path = PhotoExif;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,9 +148,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				80848BF42D94E5C300AA0454 /* PhotoExif */,
 			);
 			name = PhotoExif;
 			packageProductDependencies = (
@@ -212,6 +251,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80848C552D96846E00AA0454 /* Preview Assets.xcassets in Resources */,
+				80848C562D96846E00AA0454 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +277,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80848C4E2D96846E00AA0454 /* AlbumView.swift in Sources */,
+				80848C4F2D96846E00AA0454 /* ContentView.swift in Sources */,
+				80848C502D96846E00AA0454 /* ContentViewModel.swift in Sources */,
+				80848C512D96846E00AA0454 /* Data.swift in Sources */,
+				80848C522D96846E00AA0454 /* ExifImageVIew.swift in Sources */,
+				80848C532D96846E00AA0454 /* ImageMetadataParser.swift in Sources */,
+				80848C542D96846E00AA0454 /* PhotoExifApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +447,7 @@
 				DEVELOPMENT_TEAM = 6883D837G9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PhotoExif/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "保存";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -429,6 +478,7 @@
 				DEVELOPMENT_TEAM = 6883D837G9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PhotoExif/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "保存";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
