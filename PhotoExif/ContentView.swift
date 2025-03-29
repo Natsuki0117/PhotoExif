@@ -16,31 +16,24 @@ struct ContentView: View {
     @State private var savedImage: UIImage?
     @State private var isImageSaved = false
     @State private var images: [UIImage] = []
-
-    private var exifImage: ExifImage {
-        .init(
-            exif: viewModel.exif
-        )
-    }
-        
+    @State private var selectedType: ImageType = .frame1
 
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 Spacer()
-                exifImage
-                .shadow(radius: 10)
-
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(images, id: \..self) { image in
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                        }
+                TabView(selection: $selectedType) {
+                    ForEach(ImageType.allCases, id: \.self) { imageType in
+                        ExifImage(exif: viewModel.exif, type: imageType)
+                            .shadow(radius: 10)
+                            .padding(16)
+                            .tag(imageType)
                     }
                 }
+                .tabViewStyle(.page)
+            
+
+
                 Spacer()
                 HStack {
                     PhotosPicker(
@@ -52,14 +45,13 @@ struct ContentView: View {
                             .frame(width: 150, height: 40)
                     }
                     .foregroundColor(.white)
-//                    .background(LinearGradient(gradient: Gradient(colors: [.pink, .blue]), startPoint: .leading, endPoint: .trailing))
                     .background(Color.black)
                     .cornerRadius(.infinity)
                     .frame(maxWidth: .infinity)
                     .shadow(radius: CGFloat(15))
 
                     Button("画像を保存する"){
-                        if let image = exifImage
+                        if let image = ExifImage(exif: viewModel.exif, type: selectedType)
                             .frame(width: geometry.size.width)
                             .snapshot(scale: displayScale) {
                             PhotoLibraryManager.shared.saveImageToAlbum(image, albumName: "exif") {
@@ -70,7 +62,6 @@ struct ContentView: View {
                     }
                     .frame(width: 150, height: 40)
                     .foregroundColor(.white)
-//                    .background(LinearGradient(gradient: Gradient(colors: [.pink, .blue]), startPoint: .leading, endPoint: .trailing))
                     .background(Color.black)
                     .cornerRadius(40)
                     .frame(maxWidth: .infinity)

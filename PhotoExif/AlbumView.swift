@@ -16,7 +16,7 @@ struct AlbumView: View {
            
             VStack {
        
-                ScrollView(.horizontal) {
+                ScrollView(.horizontal){
                     LazyHStack {
                         ForEach(images, id: \.self) { image in
                             Image(uiImage: image)
@@ -29,13 +29,17 @@ struct AlbumView: View {
                 }
                 .padding()
                 
+
+                
             }
             
             .onAppear {
                 loadImages()
             }
         }
+        .background(Color.white)
     }
+        
     
         
     // 画像をアルバムから取得するメソッド

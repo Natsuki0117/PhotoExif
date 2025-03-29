@@ -30,6 +30,7 @@ struct PhotoExifApp: App {
                     }
                     .tag(1)
             }
+//            .tabViewStyle(.page)
         }
     }
 }

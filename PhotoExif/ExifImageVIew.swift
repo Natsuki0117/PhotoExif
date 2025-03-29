@@ -6,49 +6,76 @@
 //
 
 import SwiftUI
+
+enum ImageType: CaseIterable {
+    case frame1
+    case frame2
+}
  
 struct ExifImage: View {
-    private var exif: ExifData?
-
+    
+    var exif: ExifData?
+    var type: ImageType
  
     private let margin = CGFloat(16)
  
-    init(
-        exif: ExifData?
-    ) {
-        self.exif = exif
-
-    }
- 
     var body: some View {
-        Group {
-            VStack(spacing: 4) {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(.bottom, margin)
-                Group {
+        switch type {
+        case .frame1:
+            Group {
+                VStack(spacing: 4) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.bottom, margin)
+                    Group {
+                        HStack {
+                            Text(cameraMaker)
+                            Text(cameraModel)
+                        }
+                        .foregroundColor(Color.black)
+                    }
                     HStack {
-                        Text(cameraMaker)
-                        Text(cameraModel)
+                        Text(fNumber)
+                        Text(shutterSpeed)
+                        Text(iso)
                     }
                     .foregroundColor(Color.black)
                 }
-                HStack {
-                    Text(fNumber)
-                    Text(shutterSpeed)
-                    Text(iso)
-                }
-                .foregroundColor(Color.black)
+                .bold()
+                .padding(margin)
+                
             }
-            .bold()
-            .padding(margin)
+            .background(Color.white)
+        
+        case .frame2:
+            Group {
+                VStack(spacing: 4) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.bottom, margin)
+                    Group {
+                        HStack {
+                            Text(cameraMaker)
+                            Text(cameraModel)
+                        }
+                        .foregroundColor(Color.black)
+                    }
+                    HStack {
+                        Text(fNumber)
+                        Text(shutterSpeed)
+                        Text(iso)
+                    }
+                    .foregroundColor(Color.black)
+                    .padding(.bottom)
+                }
+                .bold()
+            }
+            .background(Color.white)
         }
-        .background(Color.white)
     }
-}
- 
-private extension ExifImage {
+    
     var image: UIImage {
         exif?.imageData.flatMap(UIImage.init(data:)) ?? .filled()
     }
@@ -60,11 +87,6 @@ private extension ExifImage {
     var cameraModel: String {
         exif?.cameraModel ?? "Unknown Camera"
     }
-// 
-//    var lensModel: String {
-//        exif?.lensModel ?? "Unknown Lens"
-//    }
-
     var fNumber: String {
         "f/" + .init(format: "%.1f", exif?.fNumber ?? .zero)
     }
