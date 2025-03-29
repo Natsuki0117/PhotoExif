@@ -12,6 +12,7 @@ struct ExifImage: View {
 
  
     private let margin = CGFloat(16)
+    //たぶんこの16が余白を設定してるとこ
  
     init(
         exif: ExifData?
@@ -27,6 +28,7 @@ struct ExifImage: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .padding(.bottom, margin)
+                    //この.bottomが画像とexifの間の余白、marginはそれに加えて全方向16px開けてるんだと思う
                 Group {
                     HStack {
                         Text(cameraMaker)
