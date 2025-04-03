@@ -28,9 +28,8 @@ struct AlbumView: View {
                     }
                 }
                 .padding()
-                
+                .scrollTargetBehavior(.paging)
 
-                
             }
             
             .onAppear {

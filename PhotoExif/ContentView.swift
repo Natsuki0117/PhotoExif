@@ -17,6 +17,8 @@ struct ContentView: View {
     @State private var isImageSaved = false
     @State private var images: [UIImage] = []
     @State private var selectedType: ImageType = .frame1
+    @State private var showAlert = false
+    @State private var alertMessage = ""
 
     var body: some View {
         GeometryReader { geometry in
@@ -41,7 +43,7 @@ struct ContentView: View {
                         matching: .images,
                         photoLibrary: .shared()
                     ) {
-                        Text("Select a photo")
+                        Text("SELECT ")
                             .frame(width: 150, height: 40)
                     }
                     .foregroundColor(.white)
@@ -50,13 +52,17 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity)
                     .shadow(radius: CGFloat(15))
 
-                    Button("画像を保存する"){
-                        if let image = ExifImage(exif: viewModel.exif, type: selectedType)
+                    Button("SAVE"){
+                        if viewModel.pickedPhoto == nil {
+                            alertMessage = "写真を選択してください"
+                            showAlert = true
+                        }else  if let image = ExifImage(exif: viewModel.exif, type: selectedType)
                             .frame(width: geometry.size.width)
                             .snapshot(scale: displayScale) {
                             PhotoLibraryManager.shared.saveImageToAlbum(image, albumName: "exif") {
                                 isImageSaved = true
-                                
+                                alertMessage = "保存ができました"
+                                showAlert = true
                             }
                         }
                     }
@@ -67,7 +73,7 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity)
                     .shadow(radius: CGFloat(15))
     
-                    .alert("保存ができました", isPresented: $isImageSaved) {
+                    .alert(alertMessage, isPresented: $showAlert) {
                         Button("OK", role: .cancel) {}
                     }
                 }

@@ -21,6 +21,7 @@ struct PhotoExifApp: App {
                             .environment(\.symbolVariants, selectedTab == 0 ? .fill : .none)
                         Text("Home")
                     }
+                    .accentColor(.pink)
                     .tag(0)
                 AlbumView()
                     .tabItem {
@@ -28,8 +29,10 @@ struct PhotoExifApp: App {
                             .environment(\.symbolVariants, selectedTab == 1 ? .fill : .none)
                         Text("Album")
                     }
+                    .accentColor(.red)
                     .tag(1)
             }
+            .accentColor(.pink)
 //            .tabViewStyle(.page)
         }
     }
