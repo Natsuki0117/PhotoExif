@@ -33,9 +33,9 @@ struct ContentView: View {
                     }
                 }
                 .tabViewStyle(.page)
-            
-
-
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                
+                
                 Spacer()
                 HStack {
                     PhotosPicker(

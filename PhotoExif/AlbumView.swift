@@ -13,7 +13,6 @@ struct AlbumView: View {
         
     var body: some View {
         ZStack{
-           
             VStack {
        
                 ScrollView(.horizontal){
@@ -29,7 +28,7 @@ struct AlbumView: View {
                 }
                 .padding()
                 .scrollTargetBehavior(.paging)
-
+              
             }
             
             .onAppear {
